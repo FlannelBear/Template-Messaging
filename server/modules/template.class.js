@@ -39,9 +39,9 @@ class Template{
         // Replace keys with the corresponding guest and company values
         messageArray = this._placeValues(templateArray, guest, company);
         // Place punctuation in correct positions
-        // messageArray = this.placePunc(messageArray);
+        messageArray = this._placePunc(messageArray);
         // Join array into final message string and return message
-        // return messageArray.join(' ');
+        return messageArray.join(' ');
     }
 
     // checkForPunc method evaluates a character to determine if it is punctuation
@@ -117,7 +117,16 @@ class Template{
         }
         return mutableArray;
     }
-
 }
+
+const guests = require("../Guests.json");
+const companies = require("../Companies.json");
+
+const testGuest = guests[0];
+const testCompany = companies[0];
+const testTemplate = "Hello firstName, and welcome to company in city.  Your room roomNumber is ready.";
+
+let testMessage = new Template(testTemplate);
+console.log(testMessage.generateMessage(testGuest, testCompany));
 
 module.exports = Template;
