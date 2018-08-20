@@ -146,7 +146,7 @@ class Template{
 
     _createFormattedTimeString(milliseconds){
         let date = moment(milliseconds);
-        return date.format("dddd, MMMM Do YYYY, h:mm:ss a");
+        return date.format("h:mm:ss a");
     }
 
     _determineTimezoneOffset(timezone){
@@ -207,7 +207,7 @@ const testGuest = guests[0];
 verbose ? console.log("Guest: ", testGuest) : null;
 const testCompany = companies[0];
 verbose ? console.log("Company: ", testCompany) : null;
-const testTemplate = "greeting firstName, and welcome to company in city.  Your room roomNumber will be ready on startTimestamp.";
+const testTemplate = "greeting firstName lastName, and welcome to company in city.  Your room roomNumber will be ready at startTimestamp.  You're checkout time is marked for endTimestamp, have a great day!";
 verbose ? console.log("Template: ", testTemplate) : null;
 let testMessage = new Template(testTemplate);
 verbose ? console.log("test: ", testMessage.generateMessage(testGuest, testCompany)) : null;
