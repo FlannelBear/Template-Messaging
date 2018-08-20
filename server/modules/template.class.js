@@ -28,7 +28,7 @@
 */
 
 const moment = require('moment');
-let verbose = false;
+let verbose = true;
 
 class Template{
     constructor(template){
@@ -115,9 +115,10 @@ class Template{
         verbose ? console.log("check nested") : null;
         switch(key){
             case "roomNumber":
+                return true;
             case "startTimestamp":
             case "endTimestamp":
-                return true;
+                return "timestamp";
             default:
                 return false;
         }
@@ -130,15 +131,22 @@ class Template{
         let mutableArray = array;
         for(let char of mutableArray){
             let index = mutableArray.indexOf(char);
-            if(this._checkForKnownNestedGuestKeys(char)){
+            if(this._checkForKnownNestedGuestKeys(char) && this._checkForKnownNestedGuestKeys(char) !== "timestamp"){
                 mutableArray[index] = guest.reservation[char];
-            } else if(guest[char]){
+            } else if(this._checkForKnownNestedGuestKeys(char) === "timestamp"){
+                mutableArray[index] = this._createFormattedTimeString(guest.reservation[char])
+            }else if(guest[char]){
                 mutableArray[index] = guest[char];
             } else if(company[char]){
                 mutableArray[index] = company[char];
             }
         }
         return mutableArray;
+    }
+
+    _createFormattedTimeString(milliseconds){
+        let date = moment(milliseconds);
+        return date.format("dddd, MMMM Do YYYY, h:mm:ss a");
     }
 
     _determineTimezoneOffset(timezone){
@@ -199,7 +207,7 @@ const testGuest = guests[0];
 verbose ? console.log("Guest: ", testGuest) : null;
 const testCompany = companies[0];
 verbose ? console.log("Company: ", testCompany) : null;
-const testTemplate = "greeting firstName, and welcome to company in city.  Your room roomNumber is ready.";
+const testTemplate = "greeting firstName, and welcome to company in city.  Your room roomNumber will be ready on startTimestamp.";
 verbose ? console.log("Template: ", testTemplate) : null;
 let testMessage = new Template(testTemplate);
 verbose ? console.log("test: ", testMessage.generateMessage(testGuest, testCompany)) : null;
