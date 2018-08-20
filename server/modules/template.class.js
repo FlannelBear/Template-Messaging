@@ -27,7 +27,7 @@
             given the current constraints.
 */
 
-let verbose = true;
+let verbose = false;
 
 class Template{
     constructor(template){
