@@ -74,7 +74,7 @@ class Template{
         return mutableArray;
     }
 
-    _checkForKnownNestedKeys(key){
+    _checkForKnownNestedGuestKeys(key){
         switch(key){
             case "roomNumber":
             case "startTimestamp":
@@ -86,7 +86,18 @@ class Template{
     }
 
     _placeValues(array, guest, company){
-
+        let mutableArray = array;
+        for(let char of mutableArray){
+            let index = mutableArray.indexOf(char);
+            if(this._checkForKnownNestedGuestKeys(char)){
+                mutableArray[index] = guest.reservation[char];
+            } else if(guest[char]){
+                mutableArray[index] = guest[char];
+            } else if(company[char]){
+                mutableArray[index] = company[char];
+            }
+        }
+        return mutableArray;
     }
 
 }
