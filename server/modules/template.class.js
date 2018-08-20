@@ -49,8 +49,13 @@ class Template{
         // Place punctuation in correct positions
         messageArray = this._placePunc(messageArray);
         verbose ? console.log("message array with punc: ", messageArray) : null;
+        // Remove first word "greeting", and replace with time base greeting
+        messageArray.shift();
+        messageArray.unshift(this._createGreeting(company));
         // Join array into final message string and return message
-        return messageArray.join(' ');
+        let messageString = messageArray.join(' ');
+        // messageString = this._createGreeting() + messageString;
+        return messageString;
     }
 
     // checkForPunc method evaluates a character to determine if it is punctuation
@@ -99,8 +104,9 @@ class Template{
                 mutableArray.splice(i-1, 2, prevChar + char);
                 // decrement i as to not skip indices
                 i--;
-            }
+            } 
         }
+        console.log("place Punc return: ", mutableArray);
         return mutableArray;
     }
 
@@ -135,11 +141,53 @@ class Template{
         return mutableArray;
     }
 
-    _createGreeting(){
+    _determineTimezoneOffset(timezone){
+        // time zone offsets calculated against UTC time
+        switch(timezone){
+            case "US/Central":
+                return "-05:00";
+            case "US/Pacific":
+                return "-07:00";
+            case "US/Eastern":
+                return "-04:00";
+            default:
+                console.log("Invalid timezone");
+                break;
+        }
+    }
+
+    _createGreeting(company){
         let greetingString = '';
-
-        
-
+        let now = moment().utcOffset(this._determineTimezoneOffset(company.timezone));
+        let hourOfDay = now.hour();
+        verbose ? console.log(hourOfDay) : null;
+        switch(hourOfDay){
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                greetingString = "Good morning";
+                break;
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                greetingString = "Good afternoon";
+                break;
+            default:
+                greetingString = "Good evening";
+                break;
+        }
+        verbose ? console.log(greetingString) : null;
         return greetingString;
     }
 }
@@ -151,7 +199,7 @@ const testGuest = guests[0];
 verbose ? console.log("Guest: ", testGuest) : null;
 const testCompany = companies[0];
 verbose ? console.log("Company: ", testCompany) : null;
-const testTemplate = "Hello firstName, and welcome to company in city.  Your room roomNumber is ready.";
+const testTemplate = "greeting firstName, and welcome to company in city.  Your room roomNumber is ready.";
 verbose ? console.log("Template: ", testTemplate) : null;
 let testMessage = new Template(testTemplate);
 verbose ? console.log("test: ", testMessage.generateMessage(testGuest, testCompany)) : null;
