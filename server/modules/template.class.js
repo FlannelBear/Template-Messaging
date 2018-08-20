@@ -31,21 +31,27 @@ class Template{
         this.template = template;
     }
 
-    generateMessage(guest, company){
+    async generateMessage(guest, company){
+        console.log("Generate message");
         // Create an array from the template
-        const templateArray = this.template.split(" ");
+        let templateArray = this.template.split(" ");
+        console.log("template array: ", templateArray);
         // Seperate punctuation from words
-        templateArray = this.preservePunc(templateArray);
+        templateArray = this._preservePunc(templateArray);
+        console.log("template array with punc: ", templateArray);
         // Replace keys with the corresponding guest and company values
-        messageArray = this._placeValues(templateArray, guest, company);
+        let messageArray = this._placeValues(templateArray, guest, company);
+        console.log("message array: ", messageArray);
         // Place punctuation in correct positions
         messageArray = this._placePunc(messageArray);
+        console.log("message array with punc: ", messageArray);
         // Join array into final message string and return message
         return messageArray.join(' ');
     }
 
     // checkForPunc method evaluates a character to determine if it is punctuation
     _checkForPunc(char){
+        console.log("Check for punctuation: ", char);
         switch(char){
             case '.':
             case ',':
@@ -61,9 +67,12 @@ class Template{
 
     // preservePunc method searches array for words with punctuation and splits them
     _preservePunc(array){
+        console.log("Preserve punctuation: ", array);
         let mutableArray = array;
-        for(let i = 0; i < mutableArray.length; i){
+        for(let i = 0; i < mutableArray.length; i++){
             let word = mutableArray[i];
+            console.log(word);
+            console.log(this._checkForPunc(word[word.length - 1]));
             if(this._checkForPunc(word[word.length - 1])){
                 console.log("Punc found");
                 // Replace words with punctuation on the end with the word and the punctuation seperated
@@ -76,6 +85,7 @@ class Template{
 
     // placePunc method searches array for punctuation and appends it to previous word.
     _placePunc(array){
+        console.log("Place punc");
         let mutableArray = array;
         for(let i = 0; i < mutableArray.length; i++){
             let prevChar = mutableArray[i - 1];
@@ -87,10 +97,12 @@ class Template{
                 i--;
             }
         }
+        return mutableArray;
     }
 
     // Check for the keys we know are nested in the Guest objects
     _checkForKnownNestedGuestKeys(key){
+        console.log("check nested");
         switch(key){
             case "roomNumber":
             case "startTimestamp":
@@ -104,6 +116,7 @@ class Template{
     // Check each word in the templateArray as a key for the guest and company objects
     // If it's true that key in the array will be replaced with the value
     _placeValues(array, guest, company){
+        console.log("place values");
         let mutableArray = array;
         for(let char of mutableArray){
             let index = mutableArray.indexOf(char);
@@ -123,10 +136,12 @@ const guests = require("../Guests.json");
 const companies = require("../Companies.json");
 
 const testGuest = guests[0];
+console.log("Guest: ", testGuest);
 const testCompany = companies[0];
+console.log("Company: ", testCompany);
 const testTemplate = "Hello firstName, and welcome to company in city.  Your room roomNumber is ready.";
-
+console.log("Template: ", testTemplate);
 let testMessage = new Template(testTemplate);
-console.log(testMessage.generateMessage(testGuest, testCompany));
+console.log("test: ", testMessage.generateMessage(testGuest, testCompany));
 
 module.exports = Template;
