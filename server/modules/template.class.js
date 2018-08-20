@@ -37,7 +37,7 @@ class Template{
         // Seperate punctuation from words
         templateArray = this.preservePunc(templateArray);
         // Replace keys with the corresponding guest and company values
-        // messageArray = this._placeValues(templateArray, guest, company);
+        messageArray = this._placeValues(templateArray, guest, company);
         // Place punctuation in correct positions
         // messageArray = this.placePunc(messageArray);
         // Join array into final message string and return message
@@ -74,6 +74,22 @@ class Template{
         return mutableArray;
     }
 
+    // placePunc method searches array for punctuation and appends it to previous word.
+    _placePunc(array){
+        let mutableArray = array;
+        for(let i = 0; i < mutableArray.length; i++){
+            let prevChar = mutableArray[i - 1];
+            let char = mutableArray[i];
+            if(this._checkForPunc(char)){
+                // append the punctiation to the previous char
+                mutableArray.splice(i-1, 2, prevChar + char);
+                // decrement i as to not skip indices
+                i--;
+            }
+        }
+    }
+
+    // Check for the keys we know are nested in the Guest objects
     _checkForKnownNestedGuestKeys(key){
         switch(key){
             case "roomNumber":
@@ -85,6 +101,8 @@ class Template{
         }
     }
 
+    // Check each word in the templateArray as a key for the guest and company objects
+    // If it's true that key in the array will be replaced with the value
     _placeValues(array, guest, company){
         let mutableArray = array;
         for(let char of mutableArray){
