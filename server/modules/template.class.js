@@ -26,32 +26,35 @@
         Therefore, although the hard coded logic solution is inflexible, it seems to be the best solution at this time
             given the current constraints.
 */
+
+let verbose = true;
+
 class Template{
     constructor(template){
         this.template = template;
     }
 
     async generateMessage(guest, company){
-        console.log("Generate message");
+        verbose ? console.log("Generate message") : null;
         // Create an array from the template
         let templateArray = this.template.split(" ");
-        console.log("template array: ", templateArray);
+        verbose ? console.log("template array: ", templateArray) : null;
         // Seperate punctuation from words
         templateArray = this._preservePunc(templateArray);
-        console.log("template array with punc: ", templateArray);
+        verbose ? console.log("template array with punc: ", templateArray) : null;
         // Replace keys with the corresponding guest and company values
         let messageArray = this._placeValues(templateArray, guest, company);
-        console.log("message array: ", messageArray);
+        verbose ? console.log("message array: ", messageArray) : null;
         // Place punctuation in correct positions
         messageArray = this._placePunc(messageArray);
-        console.log("message array with punc: ", messageArray);
+        verbose ? console.log("message array with punc: ", messageArray) : null;
         // Join array into final message string and return message
         return messageArray.join(' ');
     }
 
     // checkForPunc method evaluates a character to determine if it is punctuation
     _checkForPunc(char){
-        console.log("Check for punctuation: ", char);
+        verbose ? console.log("Check for punctuation: ", char) : null;
         switch(char){
             case '.':
             case ',':
@@ -67,14 +70,14 @@ class Template{
 
     // preservePunc method searches array for words with punctuation and splits them
     _preservePunc(array){
-        console.log("Preserve punctuation: ", array);
+        verbose ? console.log("Preserve punctuation: ", array) : null;
         let mutableArray = array;
         for(let i = 0; i < mutableArray.length; i++){
             let word = mutableArray[i];
-            console.log(word);
-            console.log(this._checkForPunc(word[word.length - 1]));
+            verbose ? console.log(word) : null;
+            verbose ? console.log(this._checkForPunc(word[word.length - 1])) : null;
             if(this._checkForPunc(word[word.length - 1])){
-                console.log("Punc found");
+                verbose ? console.log("Punc found") : null;
                 // Replace words with punctuation on the end with the word and the punctuation seperated
                 mutableArray.splice(i, 1, word.substr(0, word.length - 1), word.substr(word.length - 1, 1));
                 i++;
@@ -85,7 +88,7 @@ class Template{
 
     // placePunc method searches array for punctuation and appends it to previous word.
     _placePunc(array){
-        console.log("Place punc");
+        verbose ? console.log("Place punc") : null;
         let mutableArray = array;
         for(let i = 0; i < mutableArray.length; i++){
             let prevChar = mutableArray[i - 1];
@@ -102,7 +105,7 @@ class Template{
 
     // Check for the keys we know are nested in the Guest objects
     _checkForKnownNestedGuestKeys(key){
-        console.log("check nested");
+        verbose ? console.log("check nested") : null;
         switch(key){
             case "roomNumber":
             case "startTimestamp":
@@ -116,7 +119,7 @@ class Template{
     // Check each word in the templateArray as a key for the guest and company objects
     // If it's true that key in the array will be replaced with the value
     _placeValues(array, guest, company){
-        console.log("place values");
+        verbose ? console.log("place values") : null;
         let mutableArray = array;
         for(let char of mutableArray){
             let index = mutableArray.indexOf(char);
@@ -136,12 +139,12 @@ const guests = require("../Guests.json");
 const companies = require("../Companies.json");
 
 const testGuest = guests[0];
-console.log("Guest: ", testGuest);
+verbose ? console.log("Guest: ", testGuest) : null;
 const testCompany = companies[0];
-console.log("Company: ", testCompany);
+verbose ? console.log("Company: ", testCompany) : null;
 const testTemplate = "Hello firstName, and welcome to company in city.  Your room roomNumber is ready.";
-console.log("Template: ", testTemplate);
+verbose ? console.log("Template: ", testTemplate) : null;
 let testMessage = new Template(testTemplate);
-console.log("test: ", testMessage.generateMessage(testGuest, testCompany));
+verbose ? console.log("test: ", testMessage.generateMessage(testGuest, testCompany)) : null;
 
 module.exports = Template;
