@@ -27,6 +27,7 @@
             given the current constraints.
 */
 
+const moment = require('moment');
 let verbose = false;
 
 class Template{
@@ -132,6 +133,14 @@ class Template{
             }
         }
         return mutableArray;
+    }
+
+    _createGreeting(){
+        let greetingString = '';
+
+        
+
+        return greetingString;
     }
 }
 
