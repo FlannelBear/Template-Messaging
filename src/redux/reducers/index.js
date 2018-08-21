@@ -28,10 +28,10 @@ const templates = (state = [], action) => {
     }
 }
 
-const message = (state = '', action) => {
-    switch(action.payload){
+const message = (state = {}, action) => {
+    switch(action.type){
         case 'STORE_MESSAGE':
-            return action.payload.message;
+            return action.payload;
         default: 
             return state;
     }

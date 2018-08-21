@@ -7,6 +7,7 @@ const mapStateToProps = store => ({
     guests: store.guests,
     companies: store.companies,
     templates: store.templates,
+    message: store.message
 });
 
 class GenerateMessage extends React.Component{
@@ -69,7 +70,7 @@ class GenerateMessage extends React.Component{
                     })}
                 </select>
                 <button onClick={this.submitChoices}>Submit</button>
-                {this.props.message ? <MessageBox message={this.props.message}/> : null}
+                <p>{this.props.message ? this.props.message.message : null}</p>
             </div>
         );
     }
