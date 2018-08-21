@@ -13,8 +13,9 @@ const PORT = process.env.PORT || 5000;
 
 // Router Requires and Uses
 const templateRouter = require('./routers/template.router');
-app.use('/template', templateRouter);
+app.use('/api', templateRouter);
 
+console.log('Server loaded');
 // Listens
 app.listen(PORT, ()=>{
     console.log("Magic happening on port: ", PORT);

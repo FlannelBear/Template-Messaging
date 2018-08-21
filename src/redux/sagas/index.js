@@ -28,6 +28,7 @@ function* companies(){
 function* message(){
     try{
         const message = yield getMessage();
+        yield console.log(message);
         yield put({type: 'STORE_MESSAGE', payload: message});
     }catch(error){
         console.log("Error in message saga: ", error);
@@ -46,7 +47,7 @@ function* templates(){
 function* templateChoices(action){
     try{
         yield postMessage(action.payload);
-        yield put({type: 'FETCH'});
+        yield put({type: 'FETCH_MESSAGE'});
     }catch(error){
         console.log("Error in templateChoices saga: ", error);
     }

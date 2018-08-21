@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
 
+// Component Imports
+import AddTemplate from './components/AddTemplate';
+import GenerateMessage from './components/GenerateMessage';
+
 class App extends Component {
   render() {
     return (
@@ -8,8 +12,8 @@ class App extends Component {
         <div className="App-header">
           <h3>Templated Messaging</h3>
         </div>
-        {/* <GenerateMessage />
-        <AddTemplate /> */}
+        <GenerateMessage />
+        <AddTemplate />
       </div>
     );
   }

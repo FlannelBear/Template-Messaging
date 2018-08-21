@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function getGuests(){
-    return axios.get()
+    return axios.get('/api/guests')
                 .then(response => response.data)
                 .catch(error => {
                     console.log('Error handling GET in getGuests request: ', error);
@@ -10,7 +10,7 @@ export function getGuests(){
 }
 
 export function getCompanies(){
-    return axios.get()
+    return axios.get('/api/companies')
                 .then(response => response.data)
                 .catch(error => {
                     console.log('Error handling GET in getCompanies request: ', error);
@@ -19,8 +19,10 @@ export function getCompanies(){
 }
 
 export function getTemplates(){
-    return axios.get()
-                .then(response => response.data)
+    return axios.get('/api/templates')
+                .then(response => {
+                    console.log("Response from getTemplates: ", response.data);
+                    return response.data})
                 .catch(error => {
                     console.log('Error handling GET in getTemplates request: ', error);
                     throw error.response || error;
@@ -28,8 +30,11 @@ export function getTemplates(){
 }
 
 export function getMessage(){
-    return axios.get()
-                .then(response => response.data)
+    return axios.get('/api/message')
+                .then(response => {
+                    console.log(response.data);
+                    return response.data
+                })
                 .catch(error => {
                     console.log('Error handling GET in getMessage request: ', error);
                     throw error.response || error;
@@ -37,7 +42,7 @@ export function getMessage(){
 }
 
 export function postMessage(payload){
-    return axios.post()
+    return axios.post('/api/messageData', payload)
                 .then(response => response)
                 .catch(error => {
                     console.log('Error handling POST in postMessage request: ', error);
@@ -46,8 +51,11 @@ export function postMessage(payload){
 }
 
 export function postTemplate(payload){
-    return axios.post()
-                .then(response => response)
+    console.log("postTemplate: ", payload);
+    return axios.post('/api/newTemplate', payload)
+                .then(response => {
+                    console.log(response.data);
+                    return response})
                 .catch(error => {
                     console.log('Error handling POST in postTemplate request: ', error);
                     throw error.response || error;

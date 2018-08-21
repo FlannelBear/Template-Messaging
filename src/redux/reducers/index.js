@@ -19,7 +19,8 @@ const companies = (state = [], action) => {
 }
 
 const templates = (state = [], action) => {
-    switch(action.payload){
+    console.log(action);
+    switch(action.type){
         case 'STORE_TEMPLATES':
             return action.payload;
         default:
@@ -27,10 +28,10 @@ const templates = (state = [], action) => {
     }
 }
 
-const message = (state = {}, action) => {
+const message = (state = '', action) => {
     switch(action.payload){
         case 'STORE_MESSAGE':
-            return action.payload;
+            return action.payload.message;
         default: 
             return state;
     }
