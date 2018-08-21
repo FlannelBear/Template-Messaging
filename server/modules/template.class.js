@@ -35,27 +35,30 @@ class Template{
         this.template = template;
     }
 
-    async generateMessage(guest, company){
-        verbose ? console.log("Generate message") : null;
-        // Create an array from the template
-        let templateArray = this.template.split(" ");
-        verbose ? console.log("template array: ", templateArray) : null;
-        // Seperate punctuation from words
-        templateArray = this._preservePunc(templateArray);
-        verbose ? console.log("template array with punc: ", templateArray) : null;
-        // Replace keys with the corresponding guest and company values
-        let messageArray = this._placeValues(templateArray, guest, company);
-        verbose ? console.log("message array: ", messageArray) : null;
-        // Place punctuation in correct positions
-        messageArray = this._placePunc(messageArray);
-        verbose ? console.log("message array with punc: ", messageArray) : null;
-        // Remove first word "greeting", and replace with time base greeting
-        messageArray.shift();
-        messageArray.unshift(this._createGreeting(company));
-        // Join array into final message string and return message
-        let messageString = messageArray.join(' ');
-        // messageString = this._createGreeting() + messageString;
-        return messageString;
+    generateMessage(guest, company){
+        return new Promise((resolve) => {
+            verbose ? console.log("Generate message: ", this.template) : null;
+            // Create an array from the template
+            let templateArray = this.template.split(" ");
+            verbose ? console.log("template array: ", templateArray) : null;
+            // Seperate punctuation from words
+            templateArray = this._preservePunc(templateArray);
+            verbose ? console.log("template array with punc: ", templateArray) : null;
+            // Replace keys with the corresponding guest and company values
+            let messageArray = this._placeValues(templateArray, guest, company);
+            verbose ? console.log("message array: ", messageArray) : null;
+            // Place punctuation in correct positions
+            messageArray = this._placePunc(messageArray);
+            verbose ? console.log("message array with punc: ", messageArray) : null;
+            // Remove first word "greeting", and replace with time base greeting
+            messageArray.shift();
+            messageArray.unshift(this._createGreeting(company));
+            // Join array into final message string and return message
+            let messageString = messageArray.join(' ');
+            // messageString = this._createGreeting() + messageString;
+            console.log(messageString);
+            resolve(messageString);
+        });
     }
 
     // checkForPunc method evaluates a character to determine if it is punctuation
@@ -200,16 +203,16 @@ class Template{
     }
 }
 
-const guests = require("../Guests.json");
-const companies = require("../Companies.json");
+// const guests = require("../Guests.json");
+// const companies = require("../Companies.json");
 
-const testGuest = guests[0];
-verbose ? console.log("Guest: ", testGuest) : null;
-const testCompany = companies[0];
-verbose ? console.log("Company: ", testCompany) : null;
-const testTemplate = "greeting firstName lastName, and welcome to company in city.  Your room roomNumber will be ready at startTimestamp.  You're checkout time is marked for endTimestamp, have a great day!";
-verbose ? console.log("Template: ", testTemplate) : null;
-let testMessage = new Template(testTemplate);
-verbose ? console.log("test: ", testMessage.generateMessage(testGuest, testCompany)) : null;
+// const testGuest = guests[0];
+// verbose ? console.log("Guest: ", testGuest) : null;
+// const testCompany = companies[0];
+// verbose ? console.log("Company: ", testCompany) : null;
+// const testTemplate = "greeting firstName lastName, and welcome to company in city.  Your room roomNumber will be ready at startTimestamp.  You're checkout time is marked for endTimestamp, have a great day!";
+// verbose ? console.log("Template: ", testTemplate) : null;
+// let testMessage = new Template(testTemplate);
+// verbose ? console.log("test: ", testMessage.generateMessage(testGuest, testCompany)) : null;
 
 module.exports = Template;
