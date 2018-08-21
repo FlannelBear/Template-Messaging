@@ -70,7 +70,7 @@ class GenerateMessage extends React.Component{
                     })}
                 </select>
                 <button onClick={this.submitChoices}>Submit</button>
-                <p>{this.props.message ? this.props.message.message : null}</p>
+                <p style={{width: 600, margin: 'auto', marginTop: 10}}>{this.props.message ? this.props.message.message : null}</p>
             </div>
         );
     }

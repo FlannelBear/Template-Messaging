@@ -3,7 +3,11 @@ const Template = require('../modules/template.class');
 
 const guests = require('../Guests.json');
 const companies = require('../Companies.json');
-const templates = [];
+// Storing created templates, I have provided some default ones to get started with.
+const templates = [
+    {template: 'greeting firstName lastName and welcome to city! Thank you for choosing to stay with company.  Your room roomNumber will be available today at startTimestamp.  Have a great day!'},
+    {template: 'greeting firstName.  We just wanted to inform you that your checkout time is set for endTimestamp.  Thank you for choosing to stay with company, we hope to see you again the next time you visit city!'}
+];
 
 /*
     Expected data structure:
